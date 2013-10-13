@@ -15,8 +15,11 @@ There is only one function, `verify`, which is used to verify any IPN messages y
 
 Example code:
 
+    // Must respond to PayPal IPN request with an empty 200 first, if using Express uncomment the following:
+    // res.send(200);
+    
     var ipn = require('paypal-ipn');
-
+    
     ipn.verify(params, function callback(err, msg) {
       if (err) {
         console.error(msg);
