@@ -1,6 +1,6 @@
 {
   "name": "paypal-ipn",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Package for verifying Paypal IPN messages",
   "keywords": [
     "paypal",
@@ -15,14 +15,12 @@
     }
   ],
   "bugs": {
-    "web": "https://github.com/andzdroid/paypal-ipn/issues"
+    "url": "https://github.com/andzdroid/paypal-ipn/issues"
   },
-  "repositories": [
-    {
-      "type": "git",
-      "url": "git@github.com:andzdroid/paypal-ipn.git"
-    }
-  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:andzdroid/paypal-ipn.git"
+  },
   "dependencies": {
   },
   "main": "index",
