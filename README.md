@@ -22,7 +22,7 @@ Example code:
     
     ipn.verify(params, function callback(err, msg) {
       if (err) {
-        console.error(msg);
+        console.error(err);
       } else {
         //Do stuff with original params here
 
@@ -47,11 +47,9 @@ You can find more information on the [Paypal documentation for IPN](https://cms.
 ### The callback
 The callback has two parameters, `err` and `msg`.
 
-`err` will be set to true if the IPN was invalid or the request could not be made. If it is false, then the IPN was valid and you can continue to process the payment.
+If `err` is null then the IPN is valid and you can continue processing the payment. `msg` is always `VERIFIED` then.
 
-If `err` was set to true, you can check `msg` for the exact error message.
-
-If `err` was false, then `msg` will always be `VERIFIED`.
+In case IPN was invalid or the http request failed `err` holds the Error object.
 
 ### ExpressJS
 `paypal-ipn` works fine with [ExpressJS](http://expressjs.com/) or any other web framework.
