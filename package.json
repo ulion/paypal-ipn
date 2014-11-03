@@ -21,8 +21,15 @@
     "type": "git",
     "url": "git@github.com:andzdroid/paypal-ipn.git"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "main": "index",
-  "engines": ["node"]
+  "scripts": {
+    "test": "nodeunit tests"
+  },
+  "engines": [
+    "node"
+  ],
+  "devDependencies": {
+    "nodeunit": "^0.9.0"
+  }
 }
