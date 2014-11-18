@@ -11,7 +11,7 @@ $ npm install paypal-ipn
 There is only one function, `verify`, which is used to verify any IPN messages you receive:
 
 ```javascript
-ipn.verify(ipn_params, callback);
+ipn.verify(ipn_params, [settings], callback);
 ```
 
 `ipn_params` is the dictionary of POST values sent to your IPN script by PayPal. Don't modify the dict in any way, just pass it directly to `ipn.verify` to check if the IPN message is valid.
@@ -20,7 +20,8 @@ ipn.verify(ipn_params, callback);
 Example code:
 
 ```javascript
-// Must respond to PayPal IPN request with an empty 200 first, if using Express uncomment the following:
+// Must respond to PayPal IPN request with an empty 200 first
+// If using Express, uncomment the following:
 // res.send(200);
 
 var ipn = require('paypal-ipn');
@@ -36,6 +37,11 @@ ipn.verify(params, function callback(err, msg) {
     }
   }
 });
+
+//You can also pass a settings object to the verify function:
+ipn.verify(params, {'allow_sandbox': false}, function callback(err, mes) {
+  //Sandbox requests will automatically callback with an error
+});
 ```
 
 Note that all the package does is confirm that the IPN message is valid. After this, you will still need to make some more checks:
@@ -50,6 +56,24 @@ Note that all the package does is confirm that the IPN message is valid. After t
 
 You can find more information on the [PayPal documentation for IPN](https://cms.paypal.com/cgi-bin/marketingweb?cmd=_render-content&content_ID=developer/e_howto_admin_IPNIntro).
 
+### Settings
+
+Optional settings:
+
+```
+{
+  'allow_sandbox': (process.env.NODE_ENV !== 'production')
+}
+```
+
+#### allow_sandbox
+
+If this is true, sandbox requests will be verified, otherwise they will callback immediately with an error.
+
+**You should set this to false on production servers.**
+
+This defaults to false when `NODE_ENV` is `production`, otherwise it defaults to true.
+
 ### The callback
 The callback has two parameters, `err` and `msg`.
 
@@ -58,11 +82,11 @@ If `err` is null then the IPN is valid and you can continue processing the payme
 In case IPN was invalid or the http request failed `err` holds the Error object.
 
 ### ExpressJS
-`paypal-ipn` works fine with [ExpressJS](http://expressjs.com/) or any other web framework.
+`paypal-ipn` works fine with [Express](http://expressjs.com/) or any other web framework.
 
 All you need to do is pass in the request parameters to `ipn.verify`.
 
-In ExpressJS, the request parameters are in `req.body`:
+In Express, the request parameters are in `req.body`:
 
 ```javascript
 ipn.verify(req.body, callback_function);
