@@ -39,8 +39,8 @@ ipn.verify(params, function callback(err, msg) {
 });
 
 //You can also pass a settings object to the verify function:
-ipn.verify(params, {'allow_sandbox': false}, function callback(err, mes) {
-  //Sandbox requests will automatically callback with an error
+ipn.verify(params, {'allow_sandbox': true}, function callback(err, mes) {
+  //The library will attempt to verify test payments instead of blocking them
 });
 ```
 
@@ -62,17 +62,17 @@ Optional settings:
 
 ```
 {
-  'allow_sandbox': (process.env.NODE_ENV !== 'production')
+  'allow_sandbox': false
 }
 ```
 
 #### allow_sandbox
 
-If this is true, sandbox requests will be verified, otherwise they will callback immediately with an error.
+If this is true, the library will attempt to verify sandbox requests at PayPal's sandbox URL.
+
+If this is false, the library will callback with an error without checking PayPal. (This is the default value.)
 
 **You should set this to false on production servers.**
-
-This defaults to false when `NODE_ENV` is `production`, otherwise it defaults to true.
 
 ### The callback
 The callback has two parameters, `err` and `msg`.
@@ -81,7 +81,7 @@ If `err` is null then the IPN is valid and you can continue processing the payme
 
 In case IPN was invalid or the http request failed `err` holds the Error object.
 
-### ExpressJS
+### Express
 `paypal-ipn` works fine with [Express](http://expressjs.com/) or any other web framework.
 
 All you need to do is pass in the request parameters to `ipn.verify`.
