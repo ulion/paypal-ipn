@@ -7,7 +7,7 @@ module.exports['Fake IPN request'] = function(test) {
 
   var params = qs.parse(message);
 
-  ipn.verify(params, function callback(err, msg) {
+  ipn.verify(params, {'allow_sandbox': true}, function callback(err) {
     test.notEqual(err, null, 'when returning error, err should not equal null');
 
     test.done();
@@ -16,7 +16,7 @@ module.exports['Fake IPN request'] = function(test) {
 
 // test for undefined parameters passed to function
 module.exports['Undefined parameters'] = function(test) {
-	ipn.verify(undefined, function(err, msg) {
+	ipn.verify(undefined, function(err) {
 		test.notEqual(err, null, 'when returning error on undefined parameters, err should not equal null');
 
 		test.done();
